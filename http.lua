@@ -5,7 +5,7 @@
 local h = {}
 
 local http = require("socket.http")
-
+local https = require("ssl.https")
 --[[--
  A wrapper over the socket get call.
  More features can be added to it in future
@@ -15,10 +15,12 @@ local http = require("socket.http")
  @return Response body as string
 ]]
 local get_url = function(url)
-    return http.request(url)
+    if string.find(url,'^https') then
+        return https.request(url)
+    else
+        return http.request(url)
+    end
 end
-
-
 
 --- @export
 return {
